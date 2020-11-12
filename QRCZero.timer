@@ -1,0 +1,11 @@
+[Unit]
+Description=Timer for QRCZero Service
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+Unit=QRCZero.service
+
+[Install]
+WantedBy=default.target
+

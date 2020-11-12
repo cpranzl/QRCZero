@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-import sys
 import os
 import socket
 import logging
 import epd2in13b_V3
 import time
-from PIL import Image,ImageDraw,ImageFont
+from PIL import Image, ImageDraw, ImageFont
 import pyqrcode
-import png
 
 hostname = socket.gethostname()
 
@@ -39,23 +37,23 @@ try:
     # Get a drawing context
     drawblack = ImageDraw.Draw(HBlackImage)
     drawred = ImageDraw.Draw(HRedImage)
-    
+
     # Load fonts
     font14 = ImageFont.truetype('font.ttc', 14)
     font20 = ImageFont.truetype('font.ttc', 20)
 
     # Draw a line of text starting 106 pixels from the left and 10
     # from the top in Red with font size 20
-    drawblack.text((106, 10), 'MSdT', font = font20, fill = 0)
-    drawblack.text((106, 45), hostname, font = font14, fill = 0)
-    drawblack.text((106, 60), ip_address, font = font14, fill = 0)
-    drawred.text((106, 75), battery, font = font14, fill = 0)
+    drawblack.text(((epd.height // 2), 10), 'MSdT', font=font20, fill=0)
+    drawblack.text(((epd.height // 2), 45), hostname, font=font14, fill=0)
+    drawblack.text(((epd.height // 2), 60), ip_address, font=font14, fill=0)
+    drawred.text(((epd.height // 2), 75), battery, font=font14, fill=0)
 
     # Scale the bmp and calculate offset to center it
     QRCodeBMP = Image.open('code.bmp')
-    width,height = QRCodeBMP.size
+    width, height = QRCodeBMP.size
     scale = epd.width // width
-    QRCodeBMP = QRCodeBMP.resize((width * scale, height * scale)) 
+    QRCodeBMP = QRCodeBMP.resize((width * scale, height * scale))
     WOffset = (epd.width - (width * scale)) // 2
     HOffset = (epd.height - (height * scale)) // 2
 
@@ -66,7 +64,7 @@ try:
     epd.display(epd.getbuffer(HBlackImage), epd.getbuffer(HRedImage))
     time.sleep(2)
 
-    #Power off the display
+    # Power off the display
     epd.sleep()
     epd.Dev_exit()
 
@@ -77,4 +75,3 @@ except KeyboardInterrupt:
     logging.info("ctrl + c:")
     epd2in13b_V3.epdconfig.module_exit()
     exit()
-
