@@ -1,0 +1,12 @@
+[Unit]
+Description=QRCZero Service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /home/cpranzl/projects/QRCZero/QRCZero.py
+RemainAfterExit=true
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target
+
